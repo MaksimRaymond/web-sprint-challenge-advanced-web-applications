@@ -9,7 +9,8 @@ const Color = ({color, editing, editColor, deleteColor}) => {
 
     return(<li data-testid="color" onClick={() => editColor(color)}>
         <span>
-            <span className="delete" onClick={handleClick}>x</span> {` ${color.color}`}
+        { editing && (<span className="delete" onClick={handleClick}>x</span> )}
+        {` ${color.color}`}
         </span>
         
         <div 

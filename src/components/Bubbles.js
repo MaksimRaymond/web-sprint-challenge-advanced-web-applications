@@ -13,20 +13,20 @@ const Bubbles = ({ colors }) => {
   }, [colors]);
 
   return (
-    <div className="bubble-wrap">
+    <div className="bubble-wrap" data-testid="bubbles">
       <p>bubbles</p>
       <Svg width={400} height={400}>
         <Pack
           data={{
             children: bubbleData
           }}
-          sum={datum => datum.value}
+          sum={(datum) => datum.value}
           size={[400, 400]}
           includeRoot={false}
-          nodeEnter={d => ({ ...d, r: 0 })}
+          nodeEnter={(d) => ({ ...d, r: 0 })}
           animate
         >
-          {nodes =>
+          {(nodes) =>
             nodes
               .map(({ x, y, r, key }, i) => {
                 if (i < colors.length) {
@@ -42,7 +42,7 @@ const Bubbles = ({ colors }) => {
                 }
                 return null;
               })
-              .filter(v => v)
+              .filter((v) => v)
           }
         </Pack>
       </Svg>
