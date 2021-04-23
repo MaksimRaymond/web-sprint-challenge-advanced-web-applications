@@ -1,26 +1,68 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useState } from "react";
+
+const initialCredentials = {
+  username: "",
+  password: "",
+};
+
+
 
 const Login = () => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
+const [credentials, setCredentials] = useState(initialCredentials);
 
-  useEffect(()=>{
-    // make a post request to retrieve a token from the api
-    // when you have handled the token, navigate to the BubblePage route
-  });
+  const handleChange = (e) => {
+    setCredentials({...credentials, [e.target.name]: e.target.value });
+  };
+
+  const login = (e) => {
+    e.preventDefault();
+    if (!e.target.username || !e.target.password) {
+      alert("Username or Password are Wrong");
+    } else {
+      axios
+      .post(`http://localhost:5000/api/login`, credentials)
+      .then((res) => {
+        localStorage.setItem("token", res.data.payload);
+        window.location.href = "/protected";
+        console.log(res, "axios post");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  }
   
-  const error = "";
-  //replace with error state
 
   return (
-    <div>
+    <>
       <h1>Welcome to the Bubble App!</h1>
-      <div data-testid="loginForm" className="login-form">
-        <h2>Build login form here</h2>
-      </div>
 
-      <p data-testid="errorMessage" className="error">{error}</p>
-    </div>
+      <br></br>
+      <br></br>
+      <form onSubmit={login}>
+        <h1>Login</h1>
+        <label>
+          username
+          <input type="text"
+          placeholder="enter your Username"
+          name="username"
+          value={credentials.username}
+          onChange={handleChange}/>
+        </label>
+        <br></br>
+        <label>
+          password<input type="password"
+          placeholder="enter a password"
+          name="password" 
+          value={credentials.password}
+          onChange={handleChange}/>
+        </label>
+        <button>Log In</button>
+      </form>
+    </>
   );
 };
 
